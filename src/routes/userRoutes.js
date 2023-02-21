@@ -8,8 +8,8 @@ const router = express.Router()
 router
   .get('/v1/users', AuthMiddleware.auth, UserController.all)
   .get('/v1/users/:id', AuthMiddleware.auth, UserController.show)
-  .post('/v1/users', AuthMiddleware.auth,  AuthMiddleware.restrictTo('admin', 'dev', 'user'), UserController.store)
-  .put('/v1/users/:id', AuthMiddleware.auth, AuthMiddleware.restrictTo('admin', 'dev', 'user'), uploadUserPhoto, resizeUserPhoto, UserController.update)
-  .delete('/v1/users/:id', AuthMiddleware.auth, AuthMiddleware.restrictTo('admin', 'dev', 'user'), UserController.delete)
+  .post('/v1/users', AuthMiddleware.auth,  AuthMiddleware.restrictTo('admin', 'dev'), UserController.store)
+  .put('/v1/users/:id', AuthMiddleware.auth, AuthMiddleware.restrictTo('admin', 'dev'), uploadUserPhoto, resizeUserPhoto, UserController.update)
+  .delete('/v1/users/:id', AuthMiddleware.auth, AuthMiddleware.restrictTo('admin', 'dev'), UserController.delete)
 
 module.exports = router
