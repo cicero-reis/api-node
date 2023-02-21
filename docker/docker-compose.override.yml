@@ -4,10 +4,6 @@ volumes:
   mongodb-data:
     name: mongodb-data
     driver: local
-
-  storage-bookstore:
-    name: storage-bookstore
-    driver: local
 networks:
   api-network:
     driver: bridge
@@ -83,11 +79,10 @@ services:
       - mongodb
     networks:
       - api-network
+      
   redis:   
     ports:
       - 6379:6379
-    # volumes:
-    #   - .db:/data
     restart: always
     networks: 
       - api-network

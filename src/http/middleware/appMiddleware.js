@@ -8,7 +8,7 @@ const hpp = require('hpp')
 const limiter = rateLmit({
   max: 100,
   windowMs: 60 * 60 * 1000,
-  message: 'Houve muita requisição a partir deste IP, por favor tente depois de uma hora!'
+  message: 'There were too many requests from this IP, please try after an hour!'
 })
 
 const middleware = (app) => {
