@@ -1,0 +1,34 @@
+version: "3.1"
+
+services:
+  nginx:
+    image: nginx:1.13
+    container_name: nginx
+  
+  node1:
+    image: ciceroreis/node
+    container_name: node1    
+    
+  node2:
+    image: ciceroreis/node
+    container_name: node2
+    
+  node3:
+    image: ciceroreis/node
+    container_name: node3
+    
+  mongodb:
+    image: mongo:6.0.2
+    container_name: mongodb
+
+  mongo-express:
+    image: mongo-express:latest
+    container_name: mongo-express
+
+  redis:
+    image: redis:alpine
+    container_name: redis_cache
+
+  # storage:
+  #   image: minio/minio
+  #   container_name: storage

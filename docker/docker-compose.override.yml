@@ -1,0 +1,93 @@
+version: "3.1"
+
+volumes:
+  mongodb-data:
+    name: mongodb-data
+    driver: local
+
+  storage-bookstore:
+    name: storage-bookstore
+    driver: local
+networks:
+  api-network:
+    driver: bridge
+
+services:
+
+  nginx:
+    working_dir: /application
+    ports:                  
+      - 80:80
+      - 443:443
+    volumes:
+      - ./../src:/application
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./nginx/default.conf:/etc/nginx/nginx.conf
+      - ./nginx/cert.crt:/etc/nginx/ssl/server.pem
+      - ./nginx/cert.key:/etc/nginx/ssl/server-key.pem
+    depends_on:
+      - node1
+      - node2
+      - node3    
+    networks:
+      - api-network
+
+  node1:
+    working_dir: /application
+    volumes:
+      - ./../src:/application
+    command: bash -c "cd /application && npm i && npm run start:dev"
+    links:
+      - mongodb
+      - redis
+    networks:
+      - api-network
+
+  node2:
+    working_dir: /application
+    volumes:
+      - ./../src:/application
+    command: bash -c "cd /application && npm i && npm run start:dev"
+    links:
+      - mongodb
+      - redis
+    networks:
+      - api-network
+
+  node3:
+    working_dir: /application
+    volumes:
+      - ./../src:/application
+    command: bash -c "cd /application && npm i && npm run start:dev"
+    links:
+      - mongodb
+      - redis
+    networks:
+      - api-network
+
+  mongodb:
+    volumes:
+      - mongodb-data:/data/db
+    ports:
+      - 27017:27017
+    restart: always
+    networks:
+      - api-network
+
+  mongo-express:
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://mongodb:27017
+    ports:
+      - "0.0.0:8081:8081"
+    links:
+      - mongodb
+    networks:
+      - api-network
+  redis:   
+    ports:
+      - 6379:6379
+    # volumes:
+    #   - .db:/data
+    restart: always
+    networks: 
+      - api-network
